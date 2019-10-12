@@ -2,22 +2,18 @@ package rubacha;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import rubacha.translation.NumberToStringTranslator;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
 
 @SpringBootApplication(scanBasePackages = "rubacha")
 public class Application {
-    public static void main(String[]Args){
-        try {
-            SpringApplication.run(Application.class, Args);
-            NumberToString.setTranslatedNumbers();
-            openHomePage();
-        }catch (IOException io){
-            io.printStackTrace();
-        }
+    public static void main(String[] Args) {
+        SpringApplication.run(Application.class, Args);
+        openHomePage();
+
     }
+
     private static void openHomePage() {
         try {
             Runtime rt = Runtime.getRuntime();
