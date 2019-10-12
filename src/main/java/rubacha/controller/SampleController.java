@@ -8,15 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import rubacha.translation.NumberToStringTranslator;
 
-import java.io.IOException;
 
 @Controller
 public class SampleController {
     @GetMapping("/form")
     public String getForm(ModelMap map) {
 
-
-        //map.addAttribute("result","message");
         return "index";
     }
 
@@ -29,8 +26,7 @@ public class SampleController {
         NumberToStringTranslator number = new NumberToStringTranslator();
         try {
             redirectAttributes.addFlashAttribute("result", asd.toString() + ": " + number.translate(asd));
-        } catch (IOException io) {
-            /*Some error notification on UI will be good*/
+        } catch (Exception io) {
             redirectAttributes.addFlashAttribute("Unable to parse number");
             return "redirect:/form";
         }

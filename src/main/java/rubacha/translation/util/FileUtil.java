@@ -3,14 +3,10 @@ package rubacha.translation.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class FileUtil {
 
-
-    /*Create util file cause it is not Translator responsibility to perform file reading*/
     public static Map<Integer, String> readFileToMap(File file) throws IOException {
 
         Map<Integer, String> resultMap = new HashMap<>();

@@ -15,8 +15,6 @@ public class NumberToStringTranslator {
     private static Map<Integer, String> translatedNumbers;
     private List<String> dictionary;
 
-    /*I think it is better not to pass number to parse directly in method*/
-    /*Also in order to not to invoke setter, I think is is better to read file directly in constructor*/
     public NumberToStringTranslator() {
 
         try {
@@ -24,7 +22,7 @@ public class NumberToStringTranslator {
             dictionary = FileUtil.readFileToList(new File(dictionaryFilePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
-            /*Some logging here*/
+
         }
 
     }
@@ -33,8 +31,7 @@ public class NumberToStringTranslator {
         return translatedNumbers;
     }
 
-    //parsing number into array
-    /*Moved it to separate method for more readability*/
+
     private List<Integer> parseNumber(int number) {
 
         List<Integer> digits = new ArrayList<>();
@@ -58,7 +55,6 @@ public class NumberToStringTranslator {
         while (arrayList.size() % 3 != 0)
             arrayList.add(0);
 
-        /*Represented while loop as for loop*/
         for (int i = arrayList.size() - 1; i > 0; i -= 3) {
             Integer unit = arrayList.get(i - 2);
             Integer ten = arrayList.get(i - 1);
@@ -71,7 +67,6 @@ public class NumberToStringTranslator {
 
     }
 
-    /*I think it is better to return plane String than StringBuffer*/
     public String translatePart(Integer hundred,
                                 Integer ten,
                                 Integer unit,
@@ -103,35 +98,11 @@ public class NumberToStringTranslator {
             }
         }
 
-        //finding position in dictionary
-/*        if (rank != -1) {
-            FileReader fr = new FileReader("src\\Dictionary");
-            Scanner sc = new Scanner(fr);
-            int position = rank * 3 + 2;
-            if (unit.equals(1) && !ten.equals(1))
-                position -= 2;
-            if ((unit.equals(2) || unit.equals(3) || unit.equals(4)) && !ten.equals(1))
-                position -= 1;
-
-            for (int i = 0; i < position; i++) {
-                sc.next();
-            }
-
-            *//*StringBuffer has method append to add to the end of it*//*
-            res.append(sc.next()).append(SPACE);
-
-            fr.close();
-        }*/
-
-        /*Moved to separate method for better readability*/
         res.append(getFromDictionary(ten, unit, rank)).append(SPACE);
 
         return res.toString();
     }
 
-    /*I refactored it in this way:
-    * I read dictionary to list when object constructs in order not to read file every time you want to translate number
-    * To get needed string I just get it from this list by index you've calculated*/
     private String getFromDictionary(Integer ten,
                                      Integer unit,
                                      Integer rank) {

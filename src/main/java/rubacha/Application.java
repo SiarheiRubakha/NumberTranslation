@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import rubacha.translation.NumberToStringTranslator;
 
-import java.io.IOException;
 
 @SpringBootApplication(scanBasePackages = "rubacha")
 public class Application {

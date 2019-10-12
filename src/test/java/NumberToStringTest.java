@@ -39,7 +39,7 @@ public class NumberToStringTest {
         int i = 0;
         for (Map.Entry<Integer, String> entry : dataMap.entrySet()) {
             if (builder.charAt(i) == '1')
-                fw.write("OK ");
+                fw.write("OK   ");
             else
                 fw.write("FAIL ");
             fw.write(entry.getKey().toString() + " ");
@@ -79,7 +79,6 @@ public class NumberToStringTest {
         FileReader fr = new FileReader("src\\TestData");
         Scanner sc = new Scanner(fr);
         while (sc.hasNextLine()) {
-            //int nextInt = sc.nextInt();
             StringBuilder cur = new StringBuilder(sc.nextLine());
             int cut = cur.indexOf(" ");
             int numb = Integer.parseInt(cur.substring(0, cut));
