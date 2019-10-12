@@ -1,8 +1,8 @@
 # NumberTranslation
 
 Instruction for running:
-1.Open project 
-2.run "Application"
+1. Open project 
+2. Run "Application"
 
 Instructions for testing:
 1. Put testing data into "TestData.txt"
