@@ -10,7 +10,6 @@
     <label for="number">Введите число</label>
     <input id="number"
            type="number"
-            <#--Set name to input to let Spring resolve it by name in controller-->
            name="number"
            size="40">
 
@@ -19,8 +18,16 @@
         <p>${result}</p>
     </#if>
 
-    <input type="submit" value="Отправить">
-    <input type="reset" value="Очистить">
+    <#if error??>
+        <p>Ошибка:</p>
+        <p>${error}</p>
+    </#if>
+
+
+    <p>
+        <input type="submit" value="Отправить">
+        <input type="reset" value="Очистить">
+    </p>
 </form>
 
 </body>

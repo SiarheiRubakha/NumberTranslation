@@ -25,9 +25,9 @@ public class SampleController {
 
         NumberToStringTranslator number = new NumberToStringTranslator();
         try {
-            redirectAttributes.addFlashAttribute("result", asd.toString() + ": " + number.translate(asd));
+            redirectAttributes.addFlashAttribute("result", asd.toString() + " - " + number.translate(asd));
         } catch (Exception io) {
-            redirectAttributes.addFlashAttribute("Unable to parse number");
+            redirectAttributes.addFlashAttribute("error","Unable to parse number");
             return "redirect:/form";
         }
         return "redirect:/form";
