@@ -19,7 +19,7 @@ public class SampleController {
 
 
     @PostMapping("/submit_form")
-    public String submitForm(@RequestParam("number") Integer asd, RedirectAttributes redirectAttributes) {
+    public String submitForm(@RequestParam("number") Long asd, RedirectAttributes redirectAttributes) {
 
         System.out.println(asd);
 

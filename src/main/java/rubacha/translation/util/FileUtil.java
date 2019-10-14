@@ -7,13 +7,13 @@ import java.util.*;
 
 public class FileUtil {
 
-    public static Map<Integer, String> readFileToMap(File file) throws IOException {
+    public static Map<Long, String> readFileToMap(File file) throws IOException {
 
-        Map<Integer, String> resultMap = new HashMap<>();
+        Map<Long, String> resultMap = new HashMap<>();
 
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
-                resultMap.put(sc.nextInt(), sc.next());
+                resultMap.put(sc.nextLong(), sc.next());
             }
             return resultMap;
         } catch (FileNotFoundException e) {
