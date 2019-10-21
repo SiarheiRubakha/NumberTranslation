@@ -11,9 +11,14 @@ import rubacha.translation.NumberToStringTranslator;
 
 @Controller
 public class SampleController {
+
+    private static final String MAXIMUM_LONG = Long.MAX_VALUE+"";
+    private static final String REDIRECT ="redirect:/form";
+
     @GetMapping("/form")
     public String getForm(ModelMap map) {
 
+        map.addAttribute("maxValue", MAXIMUM_LONG);
         return "index";
     }
 
@@ -21,16 +26,14 @@ public class SampleController {
     @PostMapping("/submit_form")
     public String submitForm(@RequestParam("number") Long asd, RedirectAttributes redirectAttributes) {
 
-        System.out.println(asd);
-
         NumberToStringTranslator number = new NumberToStringTranslator();
         try {
             redirectAttributes.addFlashAttribute("result", asd.toString() + " - " + number.translate(asd));
         } catch (Exception io) {
             redirectAttributes.addFlashAttribute("error","Unable to parse number");
-            return "redirect:/form";
+            return REDIRECT;
         }
-        return "redirect:/form";
+        return REDIRECT;
 
     }
 

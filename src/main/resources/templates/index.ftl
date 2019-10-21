@@ -11,7 +11,8 @@
     <input id="number"
            type="number"
            name="number"
-           size="40">
+           size="40"
+           max= "${maxValue}">
 
     <#if result??>
         <p>Результат:</p>

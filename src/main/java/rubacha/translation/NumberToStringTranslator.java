@@ -6,20 +6,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static rubacha.translation.util.CommonConstants.SPACE;
+import static rubacha.translation.util.CommonConstants.*;
 
 public class NumberToStringTranslator {
 
-    private static final String dictionaryBeforeThousandFilePath = "src\\DictionaryBeforeThousand";
-    private static final String dictionaryFilePath = "src\\Dictionary";
+    private static final String DICTIONARY_BEFORE_THOUSAND_FILE_PATH = "src\\DictionaryBeforeThousand";
+    private static final String DICTIONARY_FILE_PATH = "src\\Dictionary";
     private static Map<Long, String> translatedNumbers;
     private List<String> dictionary;
 
     public NumberToStringTranslator() {
 
         try {
-            translatedNumbers = FileUtil.readFileToMap(new File(dictionaryBeforeThousandFilePath));
-            dictionary = FileUtil.readFileToList(new File(dictionaryFilePath));
+            translatedNumbers = FileUtil.readFileToMap(new File(DICTIONARY_BEFORE_THOUSAND_FILE_PATH));
+            dictionary = FileUtil.readFileToList(new File(DICTIONARY_FILE_PATH));
         } catch (IOException e) {
             throw new RuntimeException(e);
 
@@ -36,74 +36,64 @@ public class NumberToStringTranslator {
 
         List<Long> digits = new ArrayList<>();
 
-        long buf1 = number;
-        long buf2 = number;
-        while (buf1 != 0) {
-            buf1 /= 10;
-            digits.add(buf2 - buf1 * 10);
-            buf2 /= 10;
+        long subtrahend = number;
+        long minuend = number;
+        while (subtrahend != 0) {
+            subtrahend /= 10;
+            digits.add(minuend - subtrahend * 10);
+            minuend /= 10;
         }
         return digits;
     }
 
     public String translate(long number) {
 
-        StringBuilder res = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
-        List<Long> arrayList = parseNumber(number);
+        List<Long> digits = parseNumber(number);
 
-        while (arrayList.size() % 3 != 0)
-            arrayList.add(Long.parseLong("0"));
+        while (digits.size() % 3 != 0)
+            digits.add(0L);
 
-        for (int i = arrayList.size() - 1; i > 0; i -= 3) {
-            Long unit = arrayList.get(i - 2);
-            Long ten = arrayList.get(i - 1);
-            Long hundred = arrayList.get(i);
-            res.insert(res.length(), translatePart(hundred, ten, unit, i / 3 - 1));
+        for (int i = digits.size() - 1; i > 0; i -= 3) {
+            Long unit = digits.get(i - 2);
+            Long ten = digits.get(i - 1);
+            Long hundred = digits.get(i);
+            result.insert(result.length(), translatePart(hundred, ten, unit, i / 3 - 1));
         }
 
-        res.deleteCharAt(res.length() - 1);
-        return res.toString();
+        result.deleteCharAt(result.length() - 1);
+        return result.toString();
 
     }
 
-    public String translatePart(Long hundred,
+    private String translatePart(Long hundred,
                                 Long ten,
                                 Long unit,
                                 Integer rank) {
-        StringBuilder res = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
         //hundred
-        if (!hundred.equals(Long.parseLong("0")))
-            res.append(translatedNumbers.get(hundred * 100)).append(SPACE);
+        if (!hundred.equals(0L))
+            result.append(translatedNumbers.get(hundred * 100)).append(SPACE);
 
         //ten, unit
-        if (ten.equals(Long.parseLong("1")))
-            res.append(translatedNumbers.get(ten * 10 + unit)).append(SPACE);
+        if (ten.equals(1L))
+            result.append(translatedNumbers.get(ten * 10 + unit)).append(SPACE);
         else {
-            if (!ten.equals(Long.parseLong("0")))
-                res.append(translatedNumbers.get(ten * 10)).append(SPACE);
-            if (!unit.equals(Long.parseLong("0"))) {
-                if (rank == 0) { //for 1000
-                    if (unit.equals(Long.parseLong("1"))) {
-                        res.append("одна ");
-                    } else if (unit.equals(Long.parseLong("2"))) {
-                        res.append("две ");
-                    } else {
-                        res.append(translatedNumbers.get(unit)).append(SPACE);
-                    }
-                } else
-                    res.append(translatedNumbers.get(unit)).append(SPACE);
-
+            if (!ten.equals(0L))
+                result.append(translatedNumbers.get(ten * 10)).append(SPACE);
+            if (!unit.equals(0L)) {
+                result.append(unitForThousand(unit, rank)).append(SPACE);
             }
         }
 
-        if(hundred.equals(Long.parseLong("0"))&&ten.equals(Long.parseLong("0"))&&unit.equals(Long.parseLong("0")))
-            res.append(SPACE);
+        if(isZero(hundred, ten, unit))
+            result.append(SPACE);
         else
-            res.append(getFromDictionary(ten, unit, rank)).append(SPACE);
+            result.append(getFromDictionary(ten, unit, rank)).append(SPACE);
 
-        return res.toString();
+        return result.toString();
     }
 
     private String getFromDictionary(Long ten,
@@ -112,15 +102,35 @@ public class NumberToStringTranslator {
 
         if (rank != -1) {
             int position = rank * 3 + 2;
-            if (unit.equals(Long.parseLong("1")) && !ten.equals(Long.parseLong("1")))
+            if (isNominative(ten, unit))
                 position -= 2;
-            if ((unit.equals(Long.parseLong("2")) || unit.equals(Long.parseLong("3")) || unit.equals(Long.parseLong("4"))) && !ten.equals(Long.parseLong("1")))
+            if (isGenitive(ten, unit))
                 position -= 1;
 
             return dictionary.get(position);
         }
 
         return "";
+    }
+
+    private boolean isZero (Long hundred,Long ten, Long unit){
+        return(hundred.equals(0L)&&ten.equals(0L)&&unit.equals(0L));
+    }
+    private boolean isGenitive(Long ten,Long unit){
+        return (unit.equals(2L) || unit.equals(3L) || unit.equals(4L)) && !ten.equals(1L);
+    }
+    private boolean isNominative(Long ten,Long unit){
+        return unit.equals(1L) && !ten.equals(1L);
+    }
+
+    private String unitForThousand(Long unit, Integer rank){
+        if(rank.equals(0)) {
+            if (unit.equals(1L))
+                return "одна ";
+            if (unit.equals(2L))
+                return "две ";
+        }
+        return translatedNumbers.get(unit);
     }
 }
 

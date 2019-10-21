@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
 @RunWith(JUnitParamsRunner.class)
 public class NumberToStringTest {
 
+    private static final String TEST_RESULTS_PATH = "src\\TestDataRes";
+    private static final String TEST_PATH = "src\\TestData";
     private static Map<Integer, String> dataMap = new HashMap<>();
 
     private static StringBuilder builder = new StringBuilder();
@@ -33,17 +35,23 @@ public class NumberToStringTest {
 
     @AfterClass
     public static void afterClass() throws IOException {
-        System.out.print(builder);
-        FileWriter fw = new FileWriter("src\\TestDataRes");
+
+        FileWriter fw = new FileWriter(TEST_RESULTS_PATH);
 
         int i = 0;
         for (Map.Entry<Integer, String> entry : dataMap.entrySet()) {
-            if (builder.charAt(i) == '1')
+            if (builder.charAt(i) == '1') {
                 fw.write("OK   ");
-            else
+                System.out.print("OK   ");
+            }
+            else {
                 fw.write("FAIL ");
+                System.out.print("FAIL ");
+            }
             fw.write(entry.getKey().toString() + " ");
             fw.write(entry.getValue() + "\n");
+            System.out.print(entry.getKey().toString() + " ");
+            System.out.println(entry.getValue());
 
             i++;
         }
@@ -76,7 +84,7 @@ public class NumberToStringTest {
 
     public Object[] setData() throws IOException {
 
-        FileReader fr = new FileReader("src\\TestData");
+        FileReader fr = new FileReader(TEST_PATH);
         Scanner sc = new Scanner(fr);
         while (sc.hasNextLine()) {
             StringBuilder cur = new StringBuilder(sc.nextLine());
