@@ -18,7 +18,7 @@ import static junitparams.JUnitParamsRunner.$;
 import static org.junit.Assert.*;
 
 @RunWith(JUnitParamsRunner.class)
-public class NumberToStringTest {
+public class DataDrivingTest {
 
     private static final String TEST_RESULTS_PATH = "src\\TestDataRes";
     private static final String TEST_PATH = "src\\TestData";
@@ -104,4 +104,6 @@ public class NumberToStringTest {
 
         return data;
     }
+
+
 }

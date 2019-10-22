@@ -32,7 +32,7 @@ public class NumberToStringTranslator {
     }
 
 
-    private List<Long> parseNumber(long number) {
+    private List<Long> parseNumberReverse(long number) {
 
         List<Long> digits = new ArrayList<>();
 
@@ -50,7 +50,7 @@ public class NumberToStringTranslator {
 
         StringBuilder result = new StringBuilder();
 
-        List<Long> digits = parseNumber(number);
+        List<Long> digits = parseNumberReverse(number);
 
         while (digits.size() % 3 != 0)
             digits.add(0L);
