@@ -18,22 +18,17 @@ import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.when;
 import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(NumberToStringTranslator.class)
 public class NumberToStringTranslatorTest {
 
     NumberToStringTranslator number = new NumberToStringTranslator();
-    @Before
-    public void setUp() throws Exception {
-    }
 
-    @After
-    public void tearDown() throws Exception {
-    }
-
-
-    @Test
-    public void translate_maximum_long(){
+    @Test()
+    public void translate_out_of_bounds_long()throws Exception{
+        long numberToTranslate = Long.MAX_VALUE;
+        String expected = "сто двадцать три тысячи пятьсот шестьдесят восемь";
+        Method method = NumberToStringTranslator.class.getDeclaredMethod("translate", long.class);
+        method.setAccessible(true);
+        String actual = (String)method.invoke(number,numberToTranslate+1L);
 
     }
     @Test

@@ -34,6 +34,7 @@ public class NumberToStringTranslator {
 
     private List<Long> parseNumberReverse(long number) {
 
+
         List<Long> digits = new ArrayList<>();
 
         long subtrahend = number;
@@ -48,6 +49,9 @@ public class NumberToStringTranslator {
 
     public String translate(long number) {
 
+       /* if (number<0){
+            throw new NumberFormatException("nf");
+        }*/
         StringBuilder result = new StringBuilder();
 
         List<Long> digits = parseNumberReverse(number);
