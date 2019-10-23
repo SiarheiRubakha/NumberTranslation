@@ -15,7 +15,6 @@ public class SampleController {
     private static final String MAXIMUM_LONG = Long.MAX_VALUE+"";
     private static final String REDIRECT ="redirect:/form";
 
-    public Boolean submitResult;
 
     @GetMapping("/form")
     public String getForm(ModelMap map) {
@@ -31,10 +30,8 @@ public class SampleController {
         NumberToStringTranslator numberToStringTranslator = new NumberToStringTranslator();
         try {
             long numberLong = Long.parseLong(number);
-            submitResult=true;
             redirectAttributes.addFlashAttribute("result", number + " - " + numberToStringTranslator.translate(numberLong));
         } catch (NumberFormatException io) {
-            submitResult=false;
             redirectAttributes.addFlashAttribute("error","Unable to parse number");
             return REDIRECT;
         }
